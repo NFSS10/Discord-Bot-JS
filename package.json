@@ -1,6 +1,9 @@
 {
     "name": "discord-bot-js",
     "version": "0.0.1",
+    "engines": {
+        "node": ">=16.14.0"
+    },
     "description": "Just another discord bot",
     "main": "app.js",
     "scripts": {
@@ -21,7 +24,9 @@
         "url": "https://github.com/NFSS10/Discord-Bot-JS/issues"
     },
     "homepage": "https://github.com/NFSS10/Discord-Bot-JS#readme",
-    "dependencies": {},
+    "dependencies": {
+        "discord.js": "^13.6.0"
+    },
     "devDependencies": {
         "@babel/core": "^7.17.9",
         "@babel/eslint-parser": "^7.17.0",
