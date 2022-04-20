@@ -48,7 +48,8 @@ const registerCommands = async client => {
 };
 
 const runCommand = async interaction => {
-    console.log("fafa", interaction);
+    console.log("command name", interaction.commandName);
+    console.log("chosen options", interaction.options._hoistedOptions);
 };
 
 const { Client, Intents } = require("discord.js");
