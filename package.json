@@ -25,7 +25,10 @@
     },
     "homepage": "https://github.com/NFSS10/Discord-Bot-JS#readme",
     "dependencies": {
-        "discord.js": "^13.6.0"
+        "@discordjs/rest": "^0.4.1",
+        "discord-api-types": "^0.31.2",
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0"
     },
     "devDependencies": {
         "@babel/core": "^7.17.9",
