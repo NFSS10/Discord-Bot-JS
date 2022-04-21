@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 
-const setupGlobals = env => {
+const setupGlobals = async env => {
     // Environment variables (required)
     global.ENV = env || process.env.ENV;
     global.DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
@@ -12,7 +12,12 @@ const setupGlobals = env => {
 
     // Environment variables (optional)
     global.MONGODB_URI = process.env.MONGODB_URI;
+    global.COMMANDS_QUOTES_ENABLED = process.env.COMMANDS_QUOTES_ENABLED !== "false";
 };
+
+const setupDevelopmentEnv = async () => {};
+
+const setupProductionEnv = async () => {};
 
 const clear = () => {
     // TODO
@@ -23,12 +28,23 @@ const killBot = () => {
     clear();
 };
 
-const setupEnvironment = env => {
+const setupEnvironment = async env => {
     try {
         console.log("\nSetup starting...");
         dotenv.config();
 
-        setupGlobals(env);
+        await setupGlobals(env);
+
+        switch (global.ENV) {
+            case "PROD":
+                await setupProductionEnv();
+                break;
+            case "DEV":
+                await setupDevelopmentEnv();
+                break;
+            default:
+                throw new Error("Invalid environment");
+        }
 
         // call `killBot()` on exit
         process.on("exit", () => killBot());
