@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 
 const setupGlobals = async env => {
     // Environment variables (required)
@@ -18,6 +19,20 @@ const setupGlobals = async env => {
 const setupDevelopmentEnv = async () => {};
 
 const setupProductionEnv = async () => {};
+
+const setupMongoose = async () => {
+    if (!global.MONGODB_URI) {
+        console.log("Skipping Mongoose DB setup, 'MONGODB_URI' is not set");
+        return;
+    }
+
+    console.log("Mongoose DB setup...");
+
+    await mongoose.connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+};
 
 const clear = () => {
     // TODO
@@ -45,6 +60,8 @@ const setupEnvironment = async env => {
             default:
                 throw new Error("Invalid environment");
         }
+
+        await setupMongoose();
 
         // call `killBot()` on exit
         process.on("exit", () => killBot());
