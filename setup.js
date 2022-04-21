@@ -57,6 +57,7 @@ const setupEnvironment = async env => {
         // Log some of the setup information
         console.log("ENV:", global.ENV);
         console.log("MONGODB_URI is set:", Boolean(global.MONGODB_URI));
+        console.log("");
     } catch (error) {
         console.error("\nSetup failed :(\n");
         console.log(error);

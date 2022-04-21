@@ -13,7 +13,7 @@ const COMMANDS_INSTALLED = {};
     // Setup client
     const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
     client.once("ready", () => _onceReady(client));
-    client.on("interactionCreate", async interaction => _onInteractionCreate(client, interaction));
+    client.on("interactionCreate", async interaction => _onInteractionCreate(interaction));
 
     // Start bot
     client.login(global.DISCORD_BOT_TOKEN);
@@ -44,15 +44,15 @@ const _installCommands = async client => {
         const route = Routes.applicationCommands(clientId);
         await rest.put(route, { body: commandsRegistry });
     } catch (error) {
-        console.error("\nFailed while registering commands :(\n");
+        console.error("\nFailed while installing commands :(\n");
         console.log(error);
         process.exit(1);
     }
-    console.log("Finished registering commands!");
 };
 
 const _onceReady = async client => {
     await _installCommands(client);
+    console.log("\nBot is ready!!!\n");
 };
 
 const _onInteractionCreate = async interaction => {
