@@ -69,6 +69,11 @@ const setupEnvironment = async env => {
 
         await setupMongoose();
 
+        // error handler
+        process.on("unhandledRejection", error => {
+            console.error("Unhandled promise rejection:", error);
+        });
+
         // call `killBot()` on exit
         process.on("exit", () => killBot());
         process.on("SIGINT", () => killBot());

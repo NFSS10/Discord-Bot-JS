@@ -64,16 +64,22 @@ const _onceReady = async client => {
 };
 
 const _onInteractionCreate = async (client, interaction) => {
-    if (!interaction.isCommand()) return;
+    try {
+        if (!interaction.isCommand()) return;
 
-    const commandName = interaction.commandName;
-    const installedCommand = Object.values(COMMANDS_INSTALLED).find(c => c.commandsList.includes(commandName));
+        const commandName = interaction.commandName;
+        const installedCommand = Object.values(COMMANDS_INSTALLED).find(c => c.commandsList.includes(commandName));
 
-    if (!installedCommand) {
-        await interaction.reply("Couldn't run command :(");
-        return;
+        if (!installedCommand) {
+            await interaction.reply("Couldn't run command :(");
+            return;
+        }
+
+        const runCommand = installedCommand.runCommand;
+        await runCommand(client, interaction);
+    } catch (error) {
+        console.error("\nFailed while installing commands :(\n");
+        console.log(error);
+        process.exit(1);
     }
-
-    const runCommand = installedCommand.runCommand;
-    await runCommand(client, interaction);
 };
