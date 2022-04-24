@@ -1,8 +1,8 @@
 const lib = require("../lib");
 
 const runCommand = async interaction => {
-    const subcommand = interaction?.options?._subcommand;
-    switch (subcommand) {
+    const commandName = interaction.commandName;
+    switch (commandName) {
         case "play":
             play(interaction);
             break;
@@ -15,6 +15,8 @@ const play = async interaction => {
     console.log("Running play command...");
     console.log("name", interaction.commandName);
     console.log("options", interaction.options._hoistedOptions);
+
+    console.log(interaction);
 
     // lib.Utils.argsValue();
     // lib.Youtube.isYoutubeURL();

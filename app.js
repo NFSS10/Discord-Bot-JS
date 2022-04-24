@@ -34,7 +34,10 @@ const _installCommands = async client => {
             const commandName = commandCode.name;
             if (commandName === "quotes" && !global.COMMANDS_QUOTES_ENABLED) return;
 
-            COMMANDS_INSTALLED[commandName] = { runCommand: commandCode.runCommand };
+            COMMANDS_INSTALLED[commandName] = {
+                commandsList: commandCode.commands.map(c => c.name),
+                runCommand: commandCode.runCommand
+            };
             commandsRegistry.push(...commandCode.commands);
         });
 
@@ -64,12 +67,13 @@ const _onInteractionCreate = async interaction => {
     if (!interaction.isCommand()) return;
 
     const commandName = interaction.commandName;
-    const runCommand = COMMANDS_INSTALLED[commandName]?.runCommand;
+    const installedCommand = Object.values(COMMANDS_INSTALLED).find(c => c.commandsList.includes(commandName));
 
-    if (!runCommand) {
+    if (!installedCommand) {
         await interaction.reply("Couldn't run command :(");
         return;
     }
 
+    const runCommand = installedCommand.runCommand;
     await runCommand(interaction);
 };
