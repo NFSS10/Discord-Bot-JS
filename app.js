@@ -35,7 +35,7 @@ const _installCommands = async client => {
             if (commandName === "quotes" && !global.COMMANDS_QUOTES_ENABLED) return;
 
             COMMANDS_INSTALLED[commandName] = { runCommand: commandCode.runCommand };
-            commandsRegistry.push(commandCode.command);
+            commandsRegistry.push(...commandCode.commands);
         });
 
         console.log("Updating bot commands registry...");

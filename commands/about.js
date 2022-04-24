@@ -16,8 +16,10 @@ const runCommand = async interaction => {
 
 module.exports = {
     runCommand: runCommand,
-    command: {
-        name: "about",
-        description: "Show information about this bot"
-    }
+    commands: [
+        {
+            name: "about",
+            description: "Show information about this bot"
+        }
+    ]
 };

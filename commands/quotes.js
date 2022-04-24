@@ -131,59 +131,61 @@ const _removeQuote = async quote => {
 
 module.exports = {
     runCommand: runCommand,
-    command: {
-        name: "quotes",
-        description: "Show a random quote",
-        options: [
-            {
-                type: 1,
-                name: "list",
-                description: "Show all quotes"
-            },
-            {
-                type: 1,
-                name: "random",
-                description: "Shows a random quote from the quotes list"
-            },
-            {
-                type: 1,
-                name: "show",
-                description: "Shows a specific quote from the quotes list",
-                options: [
-                    {
-                        type: 4,
-                        name: "number",
-                        description: "The number of the quote in the quotes list",
-                        required: true
-                    }
-                ]
-            },
-            {
-                type: 1,
-                name: "add",
-                description: "Add a new quote",
-                options: [
-                    {
-                        type: 3,
-                        name: "text",
-                        description: "The text of the quote that is being added",
-                        required: true
-                    }
-                ]
-            },
-            {
-                type: 1,
-                name: "remove",
-                description: "Remove a quote",
-                options: [
-                    {
-                        type: 4,
-                        name: "number",
-                        description: "The number of the quote in the quotes list",
-                        required: true
-                    }
-                ]
-            }
-        ]
-    }
+    commands: [
+        {
+            name: "quotes",
+            description: "Show a random quote",
+            options: [
+                {
+                    type: 1,
+                    name: "list",
+                    description: "Show all quotes"
+                },
+                {
+                    type: 1,
+                    name: "random",
+                    description: "Shows a random quote from the quotes list"
+                },
+                {
+                    type: 1,
+                    name: "show",
+                    description: "Shows a specific quote from the quotes list",
+                    options: [
+                        {
+                            type: 4,
+                            name: "number",
+                            description: "The number of the quote in the quotes list",
+                            required: true
+                        }
+                    ]
+                },
+                {
+                    type: 1,
+                    name: "add",
+                    description: "Add a new quote",
+                    options: [
+                        {
+                            type: 3,
+                            name: "text",
+                            description: "The text of the quote that is being added",
+                            required: true
+                        }
+                    ]
+                },
+                {
+                    type: 1,
+                    name: "remove",
+                    description: "Remove a quote",
+                    options: [
+                        {
+                            type: 4,
+                            name: "number",
+                            description: "The number of the quote in the quotes list",
+                            required: true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 };
