@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const lib = require("../lib");
 
-const runCommand = async interaction => {
+const runCommand = async (client, interaction) => {
     const subcommand = interaction?.options?._subcommand;
     switch (subcommand) {
         case "list":

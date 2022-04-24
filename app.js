@@ -13,7 +13,7 @@ const COMMANDS_INSTALLED = {};
     // Setup client
     const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
     client.once("ready", () => _onceReady(client));
-    client.on("interactionCreate", async interaction => _onInteractionCreate(interaction));
+    client.on("interactionCreate", async interaction => _onInteractionCreate(client, interaction));
 
     // Start bot
     client.login(global.DISCORD_BOT_TOKEN);
@@ -63,7 +63,7 @@ const _onceReady = async client => {
     console.log("\nBot is ready!!!\n");
 };
 
-const _onInteractionCreate = async interaction => {
+const _onInteractionCreate = async (client, interaction) => {
     if (!interaction.isCommand()) return;
 
     const commandName = interaction.commandName;
@@ -75,5 +75,5 @@ const _onInteractionCreate = async interaction => {
     }
 
     const runCommand = installedCommand.runCommand;
-    await runCommand(interaction);
+    await runCommand(client, interaction);
 };

@@ -1,6 +1,6 @@
 const nodePath = require("path");
 
-const runCommand = async interaction => {
+const runCommand = async (client, interaction) => {
     const path = nodePath.join(__dirname, "../package.json");
     const packagedJson = require(path);
 
