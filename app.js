@@ -11,7 +11,7 @@ const COMMANDS_INSTALLED = {};
     await setup.setupEnvironment();
 
     // Setup client
-    const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+    const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES] });
     client.once("ready", () => _onceReady(client));
     client.on("interactionCreate", async interaction => _onInteractionCreate(client, interaction));
 
