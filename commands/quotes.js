@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const runCommand = async interaction => {
-    console.log("Running command...");
-    console.log("name", interaction.commandName);
-    console.log("options", interaction.options._hoistedOptions);
-
     const subcommand = interaction?.options?._subcommand;
     switch (subcommand) {
         case "list":
