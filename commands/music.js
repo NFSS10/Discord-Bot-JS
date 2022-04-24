@@ -1,25 +1,43 @@
+const { joinVoiceChannel } = require("@discordjs/voice");
 const lib = require("../lib");
 
-const runCommand = async interaction => {
+const runCommand = async (client, interaction) => {
     const commandName = interaction.commandName;
     switch (commandName) {
         case "play":
-            play(interaction);
+            play(client, interaction);
             break;
         default:
             await interaction.reply("Invalid command");
     }
 };
 
-const play = async interaction => {
+const play = async (client, interaction) => {
     console.log("Running play command...");
-    console.log("name", interaction.commandName);
-    console.log("options", interaction.options._hoistedOptions);
+    const userVoiceChannel = interaction.member.voice.channel;
+    if (!userVoiceChannel) {
+        await interaction.reply("Need to be inside a voice channel to run this command");
+        return;
+    }
 
-    console.log(interaction);
+    const connection = joinVoiceChannel({
+        channelId: userVoiceChannel.id,
+        guildId: userVoiceChannel.guild.id,
+        adapterCreator: userVoiceChannel.guild.voiceAdapterCreator
+    });
 
-    // lib.Utils.argsValue();
-    // lib.Youtube.isYoutubeURL();
+    const args = interaction.options._hoistedOptions;
+    const searchText = lib.Utils.argsValue(args, "song");
+
+    const songs = _songsList(searchText);
+    console.log("songs:", songs);
+};
+
+const _songsList = searchText => {
+    // TODO add spotify support before falling back to youtube
+
+    const songs = lib.Youtube.videosList(searchText);
+    return songs;
 };
 
 module.exports = {
