@@ -26,6 +26,7 @@
     "homepage": "https://github.com/NFSS10/Discord-Bot-JS#readme",
     "dependencies": {
         "@discordjs/rest": "^0.4.1",
+        "@discordjs/voice": "^0.9.0",
         "discord-api-types": "^0.31.2",
         "discord.js": "^13.6.0",
         "dotenv": "^16.0.0",
