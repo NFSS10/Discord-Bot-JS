@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const lib = require("../lib");
 
 const runCommand = async interaction => {
     const subcommand = interaction?.options?._subcommand;
@@ -51,7 +52,7 @@ const show = async interaction => {
     const quotes = await _getQuotes();
 
     const args = interaction.options._hoistedOptions;
-    const number = _argsValue(args, "number");
+    const number = lib.argsValue(args, "number");
 
     if (number < 0 || number > quotes.length - 1) {
         await interaction.reply("Invalid number");
@@ -66,7 +67,7 @@ const show = async interaction => {
 
 const add = async interaction => {
     const args = interaction.options._hoistedOptions;
-    const text = _argsValue(args, "text");
+    const text = lib.argsValue(args, "text");
 
     await _addQuote(text);
 
@@ -79,7 +80,7 @@ const remove = async interaction => {
     const quotes = await _getQuotes();
 
     const args = interaction.options._hoistedOptions;
-    const number = _argsValue(args, "number");
+    const number = lib.argsValue(args, "number");
 
     if (number < 0 || number > quotes.length - 1) {
         await interaction.reply("Invalid number");
@@ -92,11 +93,6 @@ const remove = async interaction => {
     const msg = `Removed quote: "${quote.text}"`;
 
     await interaction.reply(msg);
-};
-
-const _argsValue = (args, name) => {
-    const match = args.find(arg => arg.name === name);
-    return match ? match.value : null;
 };
 
 const Quote = mongoose.model(
