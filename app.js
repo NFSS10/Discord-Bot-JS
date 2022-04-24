@@ -31,7 +31,7 @@ const _installCommands = async client => {
             const filePath = nodePath.join(commandsPath, file);
             const commandCode = require(filePath);
 
-            const commandName = commandCode.command.name;
+            const commandName = commandCode.name;
             if (commandName === "quotes" && !global.COMMANDS_QUOTES_ENABLED) return;
 
             COMMANDS_INSTALLED[commandName] = { runCommand: commandCode.runCommand };

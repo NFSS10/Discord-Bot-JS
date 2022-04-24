@@ -21,6 +21,7 @@ const play = async interaction => {
 };
 
 module.exports = {
+    name: "music",
     runCommand: runCommand,
     commands: [
         {

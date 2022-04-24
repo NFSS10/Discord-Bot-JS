@@ -122,6 +122,7 @@ const _removeQuote = async quote => {
 };
 
 module.exports = {
+    name: "quotes",
     runCommand: runCommand,
     commands: [
         {

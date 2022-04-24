@@ -15,6 +15,7 @@ const runCommand = async interaction => {
 };
 
 module.exports = {
+    name: "about",
     runCommand: runCommand,
     commands: [
         {
