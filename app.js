@@ -41,7 +41,12 @@ const _installCommands = async client => {
         console.log("Updating bot commands registry...");
         const clientId = client.user.id;
         const rest = new REST({ version: "10" }).setToken(global.DISCORD_BOT_TOKEN);
-        const route = Routes.applicationCommands(clientId);
+
+        const route =
+            global.ENV === "DEV"
+                ? Routes.applicationGuildCommands(clientId, global.DEV_GUILD_ID)
+                : Routes.applicationCommands(clientId);
+
         await rest.put(route, { body: commandsRegistry });
     } catch (error) {
         console.error("\nFailed while installing commands :(\n");

@@ -14,6 +14,12 @@ const setupGlobals = async env => {
     // Environment variables (optional)
     global.MONGODB_URI = process.env.MONGODB_URI;
     global.COMMANDS_QUOTES_ENABLED = process.env.COMMANDS_QUOTES_ENABLED !== "false";
+
+    // Environment variables (optional)
+    global.DEV_GUILD_ID = process.env.DEV_GUILD_ID;
+    if (global.ENV === "DEV" && !global.DEV_GUILD_ID) {
+        throw new Error("Invalid DEV setup, 'DEV_GUILD_ID' is required when in development mode");
+    }
 };
 
 const setupDevelopmentEnv = async () => {};
