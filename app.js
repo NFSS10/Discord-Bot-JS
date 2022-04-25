@@ -33,6 +33,7 @@ const _installCommands = async client => {
 
             const commandName = commandCode.name;
             if (commandName === "quotes" && !global.COMMANDS_QUOTES_ENABLED) return;
+            if (commandName === "music" && !global.COMMANDS_MUSIC_ENABLED) return;
 
             COMMANDS_INSTALLED[commandName] = {
                 commandsList: commandCode.commands.map(c => c.name),
