@@ -1,4 +1,4 @@
-const { joinVoiceChannel } = require("@discordjs/voice");
+const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require("@discordjs/voice");
 const lib = require("../lib");
 
 const runCommand = async (client, interaction) => {
@@ -14,6 +14,7 @@ const runCommand = async (client, interaction) => {
 
 const MUSIC_QUEUE = [];
 let MUSIC_PLAYING = null;
+let AUDIO_PLAYER = null;
 const play = async (client, interaction) => {
     console.log("Running play command...");
     const userVoiceChannel = interaction.member.voice.channel;
@@ -37,8 +38,8 @@ const play = async (client, interaction) => {
 
     const songs = videos.map(video => ({ ...video, source: "youtube" }));
 
+    MUSIC_QUEUE.push(...songs);
     if (MUSIC_PLAYING) {
-        MUSIC_QUEUE.push(...songs);
         const msg = _addToQueueMsg(searchText, songs);
         await interaction.editReply(msg);
         return;
@@ -46,16 +47,7 @@ const play = async (client, interaction) => {
 
     if (MUSIC_PLAYING) return;
 
-    const song = songs.shift();
-    if (!song) {
-        await interaction.editReply("**Error:** No songs in queue");
-        return;
-    }
-
-    _playSong(userVoiceChannel, song);
-    const embed = { title: "Playing:", description: song.title, color: "#6ab437" };
-    const msg = { embeds: [embed] };
-    await interaction.followUp(msg);
+    await _playNextSongInQueue(userVoiceChannel, interaction);
 };
 
 const _addToQueueMsg = (searchText, songs) => {
@@ -78,14 +70,52 @@ const _addToQueueMsg = (searchText, songs) => {
     return { embeds: [embed] };
 };
 
-const _playSong = (voiceChannel, song) => {
-    // const connection = joinVoiceChannel({
-    //     channelId: userVoiceChannel.id,
-    //     guildId: userVoiceChannel.guild.id,
-    //     adapterCreator: userVoiceChannel.guild.voiceAdapterCreator
-    // });
-    // TODO play audio logic
-    MUSIC_PLAYING = song;
+const _playNextSongInQueue = async (voiceChannel, interaction) => {
+    const song = MUSIC_QUEUE.shift();
+    if (!song) {
+        await interaction.followUp("No more songs in queue");
+        return;
+    }
+
+    // join voice channel and start playing the songs audio
+    const connection = joinVoiceChannel({
+        channelId: voiceChannel.id,
+        guildId: voiceChannel.guild.id,
+        adapterCreator: voiceChannel.guild.voiceAdapterCreator
+    });
+
+    // get the song audio stream
+    let audioStream = null;
+    switch (song.source) {
+        case "youtube":
+            audioStream = lib.Youtube.audioStream(song.url);
+            break;
+        default:
+            throw new Error(`Unsupported song source: ${song.source}`);
+    }
+
+    AUDIO_PLAYER = AUDIO_PLAYER || createAudioPlayer();
+    connection.subscribe(AUDIO_PLAYER);
+
+    // TODO fix this???
+    const audioResource = createAudioResource(audioStream, {
+        filter: "audioonly",
+        quality: "highestaudio",
+        seek: 0,
+        volume: 1
+    });
+    AUDIO_PLAYER.play(audioResource);
+
+    // TODO handle when audio stops to start next one...
+
+    // update playing song
+    MUSIC_PLAYING = song || null;
+    if (!MUSIC_PLAYING) return;
+
+    // sending message informing which song started playing
+    const embed = { title: "Playing:", description: song.title, color: "#6ab437" };
+    const msg = { embeds: [embed] };
+    await interaction.followUp(msg);
 };
 
 module.exports = {
