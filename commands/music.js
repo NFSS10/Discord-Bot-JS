@@ -1,4 +1,10 @@
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require("@discordjs/voice");
+const {
+    joinVoiceChannel,
+    getVoiceConnection,
+    createAudioPlayer,
+    createAudioResource,
+    AudioPlayerStatus
+} = require("@discordjs/voice");
 const lib = require("../lib");
 
 // Variables
@@ -87,6 +93,9 @@ const _addToQueueMsg = (searchText, songs) => {
 const _playNextSongInQueue = async (voiceChannel, interaction) => {
     const song = MUSIC_QUEUE.shift();
     if (!song) {
+        const connection = getVoiceConnection(voiceChannel.guild.id);
+        if (connection) connection.destroy();
+
         await cleanup();
         await interaction.followUp("No more songs in queue");
         return;
