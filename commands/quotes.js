@@ -54,7 +54,7 @@ const show = async interaction => {
     const quotes = await _getQuotes();
 
     const args = interaction.options._hoistedOptions;
-    const number = lib.argsValue(args, "number");
+    const number = lib.Utils.argsValue(args, "number");
 
     if (number < 0 || number > quotes.length - 1) {
         await interaction.reply("Invalid number");
@@ -69,7 +69,7 @@ const show = async interaction => {
 
 const add = async interaction => {
     const args = interaction.options._hoistedOptions;
-    const text = lib.argsValue(args, "text");
+    const text = lib.Utils.argsValue(args, "text");
 
     await _addQuote(text);
 
@@ -82,7 +82,7 @@ const remove = async interaction => {
     const quotes = await _getQuotes();
 
     const args = interaction.options._hoistedOptions;
-    const number = lib.argsValue(args, "number");
+    const number = lib.Utils.argsValue(args, "number");
 
     if (number < 0 || number > quotes.length - 1) {
         await interaction.reply("Invalid number");
