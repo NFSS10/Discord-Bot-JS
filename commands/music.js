@@ -21,6 +21,25 @@ const runCommand = async (client, interaction) => {
         case "skip":
             await skip(interaction);
             break;
+        case "queue":
+            const subcommand = interaction?.options?._subcommand;
+            switch (subcommand) {
+                case "show":
+                    await queueShow(interaction);
+                    break;
+                case "add":
+                    await queueAdd(interaction);
+                    break;
+                case "remove":
+                    await queueRemove(interaction);
+                    break;
+                case "clear":
+                    await queueClear(interaction);
+                    break;
+                default:
+                    await interaction.reply("Invalid command");
+            }
+            break;
         default:
             await interaction.reply("Invalid command");
     }
@@ -85,13 +104,25 @@ const skip = async interaction => {
     _playNextSongInQueue(userVoiceChannel, interaction);
 };
 
-const queueShow = () => {};
+const queueShow = async interaction => {
+    // TODO
+    await interaction.reply("QUEUE SHOW called");
+};
 
-const queueAdd = () => {};
+const queueAdd = async interaction => {
+    // TODO
+    await interaction.reply("QUEUE ADD called");
+};
 
-const queueRemove = () => {};
+const queueRemove = async interaction => {
+    // TODO
+    await interaction.reply("QUEUE REMOVE called");
+};
 
-const queueClear = () => {};
+const queueClear = async interaction => {
+    // TODO
+    await interaction.reply("QUEUE CLEAR called");
+};
 
 const _addToQueueMsg = (searchText, songs) => {
     const embed = {};
@@ -186,6 +217,48 @@ module.exports = {
         {
             name: "skip",
             description: "Skips to the next song in the queue"
+        },
+        {
+            name: "queue",
+            description: "Commands for songs queue",
+            options: [
+                {
+                    type: 1,
+                    name: "show",
+                    description: "Shows the songs queue"
+                },
+                {
+                    type: 1,
+                    name: "add",
+                    description: "Add a song to the queue",
+                    options: [
+                        {
+                            type: 3,
+                            name: "text",
+                            description: "The song to be played. Support Youtube/Shopiy and search by youtube",
+                            required: true
+                        }
+                    ]
+                },
+                {
+                    type: 1,
+                    name: "remove",
+                    description: "Removes a song from the queue",
+                    options: [
+                        {
+                            type: 4,
+                            name: "number",
+                            description: "The number of the song in the queue",
+                            required: true
+                        }
+                    ]
+                },
+                {
+                    type: 1,
+                    name: "clear",
+                    description: " Clear the songs queue"
+                }
+            ]
         }
     ]
 };
