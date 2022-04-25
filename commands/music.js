@@ -1,4 +1,4 @@
-const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require("@discordjs/voice");
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require("@discordjs/voice");
 const lib = require("../lib");
 
 const runCommand = async (client, interaction) => {
@@ -88,25 +88,26 @@ const _playNextSongInQueue = async (voiceChannel, interaction) => {
     let audioStream = null;
     switch (song.source) {
         case "youtube":
-            audioStream = lib.Youtube.audioStream(song.url);
+            audioStream = await lib.Youtube.audioStream(song.url);
             break;
         default:
             throw new Error(`Unsupported song source: ${song.source}`);
     }
 
+    // setup audio player
     AUDIO_PLAYER = AUDIO_PLAYER || createAudioPlayer();
     connection.subscribe(AUDIO_PLAYER);
 
-    // TODO fix this???
-    const audioResource = createAudioResource(audioStream, {
-        filter: "audioonly",
-        quality: "highestaudio",
-        seek: 0,
-        volume: 1
+    // start playing audio
+    const audioResource = createAudioResource(audioStream);
+    AUDIO_PLAYER.on(AudioPlayerStatus.Idle, (oldState, newState) => {
+        if (oldState !== AudioPlayerStatus.Playing) return;
+        _playNextSongInQueue(voiceChannel, interaction);
+    });
+    AUDIO_PLAYER.on("error", error => {
+        throw error;
     });
     AUDIO_PLAYER.play(audioResource);
-
-    // TODO handle when audio stops to start next one...
 
     // update playing song
     MUSIC_PLAYING = song || null;
