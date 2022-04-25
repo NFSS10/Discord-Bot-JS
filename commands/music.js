@@ -125,7 +125,7 @@ const _playNextSongInQueue = async (voiceChannel, interaction) => {
     // start playing audio
     const audioResource = createAudioResource(audioStream);
     AUDIO_PLAYER.on(AudioPlayerStatus.Idle, (oldState, newState) => {
-        if (oldState !== AudioPlayerStatus.Playing) return;
+        if (oldState.status !== AudioPlayerStatus.Playing) return;
         _playNextSongInQueue(voiceChannel, interaction);
     });
     AUDIO_PLAYER.on("error", error => {
