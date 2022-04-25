@@ -13,7 +13,9 @@ const runCommand = async (client, interaction) => {
 
 const leave = async (client, interaction) => {
     const connection = getVoiceConnection(interaction.guildId);
-    await connection?.destroy();
+    if (connection) connection.destroy();
+    await global.cleanup();
+
     await interaction.reply("Bye! :)");
 };
 
