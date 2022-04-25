@@ -105,23 +105,41 @@ const skip = async interaction => {
 };
 
 const queueShow = async interaction => {
-    // TODO
-    await interaction.reply("QUEUE SHOW called");
+    const embed = {};
+    embed.title = "Songs queue:";
+    embed.description =
+        MUSIC_QUEUE.length > 0
+            ? MUSIC_QUEUE.map((song, i) => `**${i}** - ${song.title}`).join("\n")
+            : "No songs in queue";
+    embed.color = "#34454f";
+    await interaction.reply({ embeds: [embed] });
 };
 
 const queueAdd = async interaction => {
-    // TODO
-    await interaction.reply("QUEUE ADD called");
+    await play(interaction);
 };
 
 const queueRemove = async interaction => {
-    // TODO
-    await interaction.reply("QUEUE REMOVE called");
+    const args = interaction.options._hoistedOptions;
+    const number = lib.Utils.argsValue(args, "number");
+
+    if (number < 0 || number > MUSIC_QUEUE.length - 1) {
+        await interaction.reply("Invalid number");
+        return;
+    }
+
+    const removeSong = MUSIC_QUEUE.splice(number, 1)[0];
+
+    const embed = {};
+    embed.title = "Removed from queue:";
+    embed.description = removeSong.title;
+    embed.color = "#fcf8b9";
+    await interaction.reply({ embeds: [embed] });
 };
 
 const queueClear = async interaction => {
-    // TODO
-    await interaction.reply("QUEUE CLEAR called");
+    MUSIC_QUEUE = [];
+    await interaction.reply(">>> Songs queue cleared!");
 };
 
 const _addToQueueMsg = (searchText, songs) => {
@@ -234,7 +252,7 @@ module.exports = {
                     options: [
                         {
                             type: 3,
-                            name: "text",
+                            name: "song",
                             description: "The song to be played. Support Youtube/Shopiy and search by youtube",
                             required: true
                         }
