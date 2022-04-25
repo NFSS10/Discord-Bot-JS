@@ -16,7 +16,6 @@ const MUSIC_QUEUE = [];
 let MUSIC_PLAYING = null;
 let AUDIO_PLAYER = null;
 const play = async (client, interaction) => {
-    console.log("Running play command...");
     const userVoiceChannel = interaction.member.voice.channel;
     if (!userVoiceChannel) {
         await interaction.reply("Need to be inside a voice channel to run this command");
