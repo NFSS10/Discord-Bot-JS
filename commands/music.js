@@ -1,6 +1,11 @@
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require("@discordjs/voice");
 const lib = require("../lib");
 
+// Variables
+let MUSIC_QUEUE = [];
+let MUSIC_PLAYING = null;
+let AUDIO_PLAYER = null;
+
 const runCommand = async (client, interaction) => {
     const commandName = interaction.commandName;
     switch (commandName) {
@@ -12,9 +17,13 @@ const runCommand = async (client, interaction) => {
     }
 };
 
-const MUSIC_QUEUE = [];
-let MUSIC_PLAYING = null;
-let AUDIO_PLAYER = null;
+const cleanup = async () => {
+    MUSIC_QUEUE = [];
+    MUSIC_PLAYING = null;
+    if (AUDIO_PLAYER) AUDIO_PLAYER.stop();
+    AUDIO_PLAYER = null;
+};
+
 const play = async (client, interaction) => {
     const userVoiceChannel = interaction.member.voice.channel;
     if (!userVoiceChannel) {
@@ -46,7 +55,13 @@ const play = async (client, interaction) => {
 
     if (MUSIC_PLAYING) return;
 
-    await _playNextSongInQueue(userVoiceChannel, interaction);
+    try {
+        await _playNextSongInQueue(userVoiceChannel, interaction);
+    } catch (error) {
+        await cleanup();
+        console.error(error);
+        await interaction.followUp("**ERROR:** Something went wrong :(");
+    }
 };
 
 const _addToQueueMsg = (searchText, songs) => {
@@ -72,6 +87,7 @@ const _addToQueueMsg = (searchText, songs) => {
 const _playNextSongInQueue = async (voiceChannel, interaction) => {
     const song = MUSIC_QUEUE.shift();
     if (!song) {
+        await cleanup();
         await interaction.followUp("No more songs in queue");
         return;
     }
@@ -121,6 +137,7 @@ const _playNextSongInQueue = async (voiceChannel, interaction) => {
 module.exports = {
     name: "music",
     runCommand: runCommand,
+    cleanup: cleanup,
     commands: [
         {
             name: "play",

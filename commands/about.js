@@ -14,9 +14,12 @@ const runCommand = async (client, interaction) => {
     await interaction.reply(msg);
 };
 
+const cleanup = async () => {};
+
 module.exports = {
     name: "about",
     runCommand: runCommand,
+    cleanup: cleanup,
     commands: [
         {
             name: "about",

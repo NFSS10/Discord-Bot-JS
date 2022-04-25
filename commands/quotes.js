@@ -24,6 +24,8 @@ const runCommand = async (client, interaction) => {
     }
 };
 
+const cleanup = async () => {};
+
 const list = async interaction => {
     const quotes = await _getQuotes();
 
@@ -124,6 +126,7 @@ const _removeQuote = async quote => {
 module.exports = {
     name: "quotes",
     runCommand: runCommand,
+    cleanup: cleanup,
     commands: [
         {
             name: "quotes",
