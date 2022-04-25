@@ -16,7 +16,10 @@ const runCommand = async (client, interaction) => {
     const commandName = interaction.commandName;
     switch (commandName) {
         case "play":
-            await play(client, interaction);
+            await play(interaction);
+            break;
+        case "skip":
+            await skip(interaction);
             break;
         default:
             await interaction.reply("Invalid command");
@@ -30,7 +33,7 @@ const cleanup = async () => {
     AUDIO_PLAYER = null;
 };
 
-const play = async (client, interaction) => {
+const play = async interaction => {
     const userVoiceChannel = interaction.member.voice.channel;
     if (!userVoiceChannel) {
         await interaction.reply("Need to be inside a voice channel to run this command");
@@ -69,6 +72,26 @@ const play = async (client, interaction) => {
         await interaction.followUp("**ERROR:** Something went wrong :(");
     }
 };
+
+const skip = async interaction => {
+    const userVoiceChannel = interaction.member.voice.channel;
+    if (!userVoiceChannel) {
+        await interaction.reply("Need to be inside a voice channel to run this command");
+        return;
+    }
+
+    await interaction.deferReply();
+    await interaction.editReply("Skipping song...");
+    _playNextSongInQueue(userVoiceChannel, interaction);
+};
+
+const queueShow = () => {};
+
+const queueAdd = () => {};
+
+const queueRemove = () => {};
+
+const queueClear = () => {};
 
 const _addToQueueMsg = (searchText, songs) => {
     const embed = {};
@@ -159,6 +182,10 @@ module.exports = {
                     required: true
                 }
             ]
+        },
+        {
+            name: "skip",
+            description: "Skips to the next song in the queue"
         }
     ]
 };
