@@ -36,7 +36,8 @@ const _installCommands = async client => {
 
             COMMANDS_INSTALLED[commandName] = {
                 commandsList: commandCode.commands.map(c => c.name),
-                runCommand: commandCode.runCommand
+                runCommand: commandCode.runCommand,
+                cleanup: commandCode.cleanup
             };
             commandsRegistry.push(...commandCode.commands);
         });
