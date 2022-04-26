@@ -24,7 +24,7 @@ const cleanup = async () => {};
 const onceBotReady = async client => {};
 
 module.exports = {
-    name: "about",
+    name: "basic",
     runCommand: runCommand,
     cleanup: cleanup,
     onceBotReady: onceBotReady,
