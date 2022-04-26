@@ -21,10 +21,13 @@ const leave = async (client, interaction) => {
 
 const cleanup = async () => {};
 
+const onceBotReady = async client => {};
+
 module.exports = {
     name: "about",
     runCommand: runCommand,
     cleanup: cleanup,
+    onceBotReady: onceBotReady,
     commands: [
         {
             name: "leave",

@@ -26,6 +26,8 @@ const runCommand = async (client, interaction) => {
 
 const cleanup = async () => {};
 
+const onceBotReady = async client => {};
+
 const list = async interaction => {
     const quotes = await _getQuotes();
 
@@ -127,6 +129,7 @@ module.exports = {
     name: "quotes",
     runCommand: runCommand,
     cleanup: cleanup,
+    onceBotReady: onceBotReady,
     commands: [
         {
             name: "quotes",

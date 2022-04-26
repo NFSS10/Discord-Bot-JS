@@ -45,7 +45,8 @@ const _installCommands = async client => {
             COMMANDS_INSTALLED[commandName] = {
                 commandsList: commandCode.commands.map(c => c.name),
                 runCommand: commandCode.runCommand,
-                cleanup: commandCode.cleanup
+                cleanup: commandCode.cleanup,
+                onceBotReady: commandCode.onceBotReady
             };
             commandsRegistry.push(...commandCode.commands);
         });
@@ -69,6 +70,7 @@ const _installCommands = async client => {
 
 const _onceReady = async client => {
     await _installCommands(client);
+    Object.values(COMMANDS_INSTALLED).forEach(c => c.onceBotReady(client));
     console.log("\nBot is ready!!!\n");
 };
 

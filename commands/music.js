@@ -52,6 +52,8 @@ const cleanup = async () => {
     AUDIO_PLAYER = null;
 };
 
+const onceBotReady = async client => {};
+
 const play = async interaction => {
     const userVoiceChannel = interaction.member.voice.channel;
     if (!userVoiceChannel) {
@@ -219,6 +221,7 @@ module.exports = {
     name: "music",
     runCommand: runCommand,
     cleanup: cleanup,
+    onceBotReady: onceBotReady,
     commands: [
         {
             name: "play",
