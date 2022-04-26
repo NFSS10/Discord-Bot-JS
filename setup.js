@@ -41,14 +41,9 @@ const setupMongoose = async () => {
     });
 };
 
-const clear = () => {
-    // TODO
-};
+const setupExtraCommands = async () => {};
 
-const killBot = () => {
-    // TODO
-    clear();
-};
+const exitApp = async () => {};
 
 const setupEnvironment = async env => {
     try {
@@ -75,11 +70,11 @@ const setupEnvironment = async env => {
             console.error("Unhandled promise rejection:", error);
         });
 
-        // call `killBot()` on exit
-        process.on("exit", () => killBot());
-        process.on("SIGINT", () => killBot());
-        process.on("SIGTERM", () => killBot());
-        process.on("uncaughtException", () => killBot());
+        // handle app exit
+        process.on("exit", async () => await exitApp());
+        process.on("SIGINT", async () => await exitApp());
+        process.on("SIGTERM", async () => await exitApp());
+        process.on("uncaughtException", async () => await exitApp());
 
         console.log("\nSetup completed!");
 
