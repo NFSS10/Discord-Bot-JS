@@ -13,11 +13,18 @@ const COMMANDS_INSTALLED = {};
     // Setup client
     const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES] });
     client.once("ready", () => _onceReady(client));
+    client.on("voiceStateUpdate", (oldState, newState) => _onVoiceStateUpdate(client, oldState, newState));
     client.on("interactionCreate", async interaction => _onInteractionCreate(client, interaction));
 
     // Start bot
     client.login(global.DISCORD_BOT_TOKEN);
 })();
+
+global.cleanup = async () => {
+    console.log("Running global cleanup...");
+    Object.values(COMMANDS_INSTALLED).forEach(async c => await c.cleanup());
+    console.log("Global finished!");
+};
 
 const _installCommands = async client => {
     try {
@@ -63,6 +70,19 @@ const _installCommands = async client => {
 const _onceReady = async client => {
     await _installCommands(client);
     console.log("\nBot is ready!!!\n");
+};
+
+const _onVoiceStateUpdate = async (client, oldState, newState) => {
+    // ignore users voice state changes
+    if (!oldState.member.user.bot) return;
+
+    // check if is this bot's voice state change
+    if (oldState.id !== client.user.id) return;
+
+    // the voice state changes was made by the bot but it's not
+    // connected to a voice channel so it means it was disconnected
+    // thus we should a cleanup
+    if (!newState.channel) global.cleanup();
 };
 
 const _onInteractionCreate = async (client, interaction) => {
