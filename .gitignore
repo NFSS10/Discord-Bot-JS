@@ -3,6 +3,8 @@ yarn.lock
 package-lock.json
 /node_modules
 /dist
+/tmp
+/commands-extra
 
 # local env files
 .env
