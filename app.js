@@ -23,7 +23,7 @@ const COMMANDS_INSTALLED = {};
 global.cleanup = async () => {
     console.log("Running global cleanup...");
     Object.values(COMMANDS_INSTALLED).forEach(async c => await c.cleanup());
-    console.log("Global finished!");
+    console.log("Global cleanup finished!");
 };
 
 const _installCommands = async client => {
