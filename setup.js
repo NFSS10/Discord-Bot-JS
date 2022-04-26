@@ -37,7 +37,7 @@ const setupMongoose = async () => {
         return;
     }
 
-    console.log("Mongoose DB setup...");
+    console.log("\nMongoose DB setup...");
 
     await mongoose.connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
@@ -51,21 +51,27 @@ const setupExtraCommands = async () => {
         return;
     }
 
-    console.log("Extra commands setup...");
+    console.log("\nExtra commands setup...");
 
     // ensure folders exist
-    const tmpFolderPath = nodePath.join(__dirname, "./tmp");
-    const commandsExtraFolderPath = nodePath.join(__dirname, "./commands-extra");
+    const tmpFolderPath = nodePath.join(__dirname, "./tmp/commands-extra");
+    const extraCommandsFolderPath = nodePath.join(__dirname, "./commands-extra");
     fs.mkdirSync(tmpFolderPath, { recursive: true });
-    fs.mkdirSync(commandsExtraFolderPath, { recursive: true });
+    fs.mkdirSync(extraCommandsFolderPath, { recursive: true });
 
     // download and extract extra commands
+    console.log(`Downloading zip from ${global.EXTRA_COMMANDS_ZIP_URL}`);
     await lib.Utils.downloadFileAndSave(global.EXTRA_COMMANDS_ZIP_URL, "extra-commands.zip", tmpFolderPath);
-    const extraCommandsZipPath = nodePath.join(tmpFolderPath, "extra-commands.zip");
-    await lib.Utils.unzip(extraCommandsZipPath, commandsExtraFolderPath);
+    const tmpZipPath = nodePath.join(tmpFolderPath, "extra-commands.zip");
+    await lib.Utils.unzip(tmpZipPath, extraCommandsFolderPath);
+
+    // logging info about downloaded files
+    console.log("Extra commands files:");
+    const files = fs.readdirSync(extraCommandsFolderPath);
+    files.forEach(file => console.log(` - ${file}`));
 
     // delete zip file
-    fs.unlinkSync(extraCommandsZipPath);
+    fs.unlinkSync(tmpZipPath);
 };
 
 const exitApp = async () => {};
