@@ -1,5 +1,8 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const fs = require("fs");
+const nodePath = require("path");
+const lib = require("./lib");
 
 const setupGlobals = async env => {
     // Environment variables (required)
@@ -13,6 +16,7 @@ const setupGlobals = async env => {
 
     // Environment variables (optional)
     global.MONGODB_URI = process.env.MONGODB_URI;
+    global.EXTRA_COMMANDS_ZIP_URL = process.env.EXTRA_COMMANDS_ZIP_URL;
     global.COMMANDS_QUOTES_ENABLED = process.env.COMMANDS_QUOTES_ENABLED !== "false";
     global.COMMANDS_MUSIC_ENABLED = process.env.COMMANDS_MUSIC_ENABLED !== "false";
 
@@ -41,7 +45,28 @@ const setupMongoose = async () => {
     });
 };
 
-const setupExtraCommands = async () => {};
+const setupExtraCommands = async () => {
+    if (!global.EXTRA_COMMANDS_ZIP_URL) {
+        console.log("Skipping extra commands setup, 'EXTRA_COMMANDS_ZIP_URL' is not set");
+        return;
+    }
+
+    console.log("Extra commands setup...");
+
+    // ensure folders exist
+    const tmpFolderPath = nodePath.join(__dirname, "./tmp");
+    const commandsExtraFolderPath = nodePath.join(__dirname, "./commands-extra");
+    fs.mkdirSync(tmpFolderPath, { recursive: true });
+    fs.mkdirSync(commandsExtraFolderPath, { recursive: true });
+
+    // download and extract extra commands
+    await lib.Utils.downloadFileAndSave(global.EXTRA_COMMANDS_ZIP_URL, "extra-commands.zip", tmpFolderPath);
+    const extraCommandsZipPath = nodePath.join(tmpFolderPath, "extra-commands.zip");
+    await lib.Utils.unzip(extraCommandsZipPath, commandsExtraFolderPath);
+
+    // delete zip file
+    fs.unlinkSync(extraCommandsZipPath);
+};
 
 const exitApp = async () => {};
 
@@ -64,6 +89,7 @@ const setupEnvironment = async env => {
         }
 
         await setupMongoose();
+        await setupExtraCommands();
 
         // error handler
         process.on("unhandledRejection", error => {
