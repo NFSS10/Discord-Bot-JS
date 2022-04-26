@@ -28,16 +28,29 @@ global.cleanup = async () => {
 
 const _installCommands = async client => {
     try {
-        console.log("Loading commands...");
-        const commandsPath = nodePath.join(__dirname, "commands");
-        const commandsFiles = fs.readdirSync(commandsPath);
+        const commandsFilesCodeArr = [];
 
-        console.log("Registering commands...");
-        const commandsRegistry = [];
+        console.log("Loading commands...");
+        const commandsPath = nodePath.join(__dirname, "commands/");
+        const commandsFiles = fs.readdirSync(commandsPath);
         commandsFiles.forEach(file => {
             const filePath = nodePath.join(commandsPath, file);
             const commandCode = require(filePath);
+            commandsFilesCodeArr.push(commandCode);
+        });
 
+        console.log("Loading commands-extra....");
+        const commandsExtraPath = nodePath.join(__dirname, "commands-extra/");
+        const commandsExtraFiles = fs.readdirSync(commandsExtraPath);
+        commandsExtraFiles.forEach(file => {
+            const filePath = nodePath.join(commandsExtraPath, file);
+            const commandCode = require(filePath);
+            commandsFilesCodeArr.push(commandCode);
+        });
+
+        console.log("Registering commands...");
+        const commandsRegistry = [];
+        commandsFilesCodeArr.forEach(commandCode => {
             const commandName = commandCode.name;
             if (commandName === "quotes" && !global.COMMANDS_QUOTES_ENABLED) return;
             if (commandName === "music" && !global.COMMANDS_MUSIC_ENABLED) return;
