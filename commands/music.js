@@ -67,7 +67,9 @@ const play = async interaction => {
     // defer reply because operation can take some time
     await interaction.deferReply();
 
-    // TODO add spotify support before falling back to youtube
+    // TODO soundcloud and spotify support
+    // TODO try to find match in other platforms before falling
+    // back to youtube
     const videos = await lib.Youtube.videosList(searchText);
     if (videos.length === 0) {
         await interaction.editReply("No results");
