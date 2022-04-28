@@ -39,7 +39,7 @@ const setupMongoose = async () => {
 
     console.log("\nMongoose DB setup...");
 
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(global.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
