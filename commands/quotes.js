@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const lib = require("../lib");
 
 const runCommand = async (client, interaction) => {
+    if (!global.MONGODB_URI) {
+        await interaction.reply("Missing database setup");
+        return;
+    }
+
     const subcommand = interaction?.options?._subcommand;
     switch (subcommand) {
         case "list":
