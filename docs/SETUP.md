@@ -2,7 +2,7 @@
 
 ## Instructions
 
-Discord app documentation: https://discord.com/developers/docs/getting-started#creating-an-app
+Official Discord documentation: https://discord.com/developers/docs/getting-started#creating-an-app
 
 <details>
   <summary><h3>1. Create a new Discord app</h3></summary>
@@ -24,10 +24,12 @@ Discord app documentation: https://discord.com/developers/docs/getting-started#c
 ![7](https://user-images.githubusercontent.com/22588915/165845993-110bca50-187d-4b07-95e7-02593302ae00.png)
 
 This token that should be added to the environment variable `DISCORD_BOT_TOKEN`
-  
+
 #### 3.1. If the copy button doesn't show just reset the token
+
 ![5](https://user-images.githubusercontent.com/22588915/165845867-b4a0a8ae-b137-4c32-871c-563b7117111f.png)
 ![6](https://user-images.githubusercontent.com/22588915/165845874-c344551d-b860-4b53-8789-029186b81be8.png)
+
 </details>
 
 <details>
@@ -36,15 +38,18 @@ This token that should be added to the environment variable `DISCORD_BOT_TOKEN`
 ![8](https://user-images.githubusercontent.com/22588915/165846016-142e332d-3d6f-4d8b-886d-6c6c1a06f2e7.png)
 
 **The minimum "Scopes" are the following:**
+
 - bot
 - applications.commands
 
 **The minimum "Bot Permissions" are the following:**
+
 - Read Messages/View Channels
 - Send Messages
 - Read Message History
 - Connect
 - Speak
+
 </details>
 
 <details>
@@ -55,6 +60,6 @@ This token that should be added to the environment variable `DISCORD_BOT_TOKEN`
 ![11](https://user-images.githubusercontent.com/22588915/165847214-ae8ec454-e7d9-4ca1-a486-f698231d1bdd.png)
 </details>
 
-### 6. Run the bot and you can now use the bot in your server!
+### 6. Run the bot and you can now use the bot in your server
 
 https://user-images.githubusercontent.com/22588915/165847012-4bf2ade6-04dc-4251-a960-351c9eb7834a.mp4
