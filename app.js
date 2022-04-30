@@ -39,14 +39,16 @@ const _installCommands = async client => {
             commandsFilesCodeArr.push(commandCode);
         });
 
-        console.log("Loading commands-extra....");
-        const commandsExtraPath = nodePath.join(__dirname, "commands-extra/");
-        const commandsExtraFiles = fs.readdirSync(commandsExtraPath);
-        commandsExtraFiles.forEach(file => {
-            const filePath = nodePath.join(commandsExtraPath, file);
-            const commandCode = require(filePath);
-            commandsFilesCodeArr.push(commandCode);
-        });
+        if (global.EXTRA_COMMANDS_ZIP_URL) {
+            console.log("Loading commands-extra....");
+            const commandsExtraPath = nodePath.join(__dirname, "commands-extra/");
+            const commandsExtraFiles = fs.readdirSync(commandsExtraPath);
+            commandsExtraFiles.forEach(file => {
+                const filePath = nodePath.join(commandsExtraPath, file);
+                const commandCode = require(filePath);
+                commandsFilesCodeArr.push(commandCode);
+            });
+        }
 
         console.log("Registering commands...");
         const commandsRegistry = [];
