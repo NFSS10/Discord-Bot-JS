@@ -1,0 +1,32 @@
+name: Deployment
+
+on:
+  push:    
+    tags:        
+      - '[0-9]+.[0-9]+.[0-9]+'
+    branches: [ master ]
+
+on:
+  push:    
+    branches: [ actions ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.14.0]
+    steps:
+    - uses: actions/checkout@v2
+    
+    # Build
+    - run: node --version
+    - run: yarn install
+
+    # Deploys the app 
+    - name: Deploy
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+        heroku_email: ${{ secrets.HEROKU_EMAIL }}
