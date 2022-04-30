@@ -4,13 +4,13 @@ Just another Discord bot ¯\_(ツ)\_/¯
 
 ## Project setup
 
-**1º** Install
+**1º** Bot setup
 
-```bash
-yarn install
-```
+Follow the instructions here: [docs/SETUP.md](docs/SETUP.md)
 
-**2º** Setup environment variables. You can use a `.env` file to set the variables.
+**2º** Environment variables setup
+
+You can use a `.env` file to set the variables.
 
 **Required environment variables:**
 | Name                  | Description                                                                         |
@@ -26,6 +26,12 @@ yarn install
 | **COMMANDS_QUOTES_ENABLED** | `true`      | Enables/disables quotes commands.                                       |
 | **COMMANDS_MUSIC_ENABLED**  | `true`      | Enables/disables music commands.                                        |
 | **DEV_GUILD_ID**            | `undefined` | Guild ID, aka server's ID (**Required if in development environment**). |
+
+**3º** Install dependencies
+
+```bash
+yarn install
+```
 
 ## Running in Development
 
