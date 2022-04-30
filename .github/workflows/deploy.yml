@@ -6,6 +6,10 @@ name: Deploy to Heroku
 #       - '[0-9]+.[0-9]+.[0-9]+'
 #     branches: [ master ]
 
+on:
+  push:    
+    branches: [ actions ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
