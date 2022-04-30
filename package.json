@@ -1,0 +1,53 @@
+{
+    "name": "discord-bot-js",
+    "version": "0.0.1",
+    "engines": {
+        "node": ">=16.14.0"
+    },
+    "description": "Just another discord bot",
+    "main": "app.js",
+    "scripts": {
+        "dev": "nodemon app.js",
+        "lint": "eslint .",
+        "lint-fix": "eslint . --fix",
+        "prettier": "prettier --write \"**/*.+(js|jsx|json|md)\"",
+        "pretty": "npm run prettier && npm run lint-fix",
+        "start": "node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/NFSS10/Discord-Bot-JS.git"
+    },
+    "author": "NFSS10",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/NFSS10/Discord-Bot-JS/issues"
+    },
+    "homepage": "https://github.com/NFSS10/Discord-Bot-JS#readme",
+    "dependencies": {
+        "@discordjs/opus": "^0.7.0",
+        "@discordjs/rest": "^0.4.1",
+        "@discordjs/voice": "^0.9.0",
+        "discord-api-types": "^0.31.2",
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0",
+        "extract-zip": "^2.0.1",
+        "ffmpeg-static": "^5.0.0",
+        "mongoose": "^6.3.0",
+        "tweetnacl": "^1.0.3",
+        "yt-search": "^2.10.3",
+        "ytdl-core": "^4.11.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.9",
+        "@babel/eslint-parser": "^7.17.0",
+        "eslint": "^8.13.0",
+        "eslint-config-standard": "^17.0.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-mocha": "^10.0.4",
+        "eslint-plugin-n": "^15.1.0",
+        "eslint-plugin-promise": "^6.0.0",
+        "nodemon": "^2.0.15",
+        "prettier": "^2.6.2"
+    }
+}
