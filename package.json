@@ -1,6 +1,6 @@
 {
     "name": "discord-bot-js",
-    "version": "0.0.1",
+    "version": "0.5.0",
     "engines": {
         "node": ">=16.14.0"
     },
