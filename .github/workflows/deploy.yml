@@ -1,0 +1,41 @@
+name: Deploy to Heroku
+
+# on:
+#   push:    
+#     tags:        
+#       - '[0-9]+.[0-9]+.[0-9]+'
+#     branches: [ master ]
+
+on:
+  push:    
+    branches: [ actions ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.14.0]
+    steps:
+    - uses: actions/checkout@v2
+    
+    # Build the app
+    - name: Build the app
+      run: node --version
+      run: yarn install
+
+    # Logins to heroku
+    - name: Login to Heroku Container registry
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login
+
+    # Deploys the app 
+    - name: Deploy
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
+    - name: Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
